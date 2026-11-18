@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crud Produtos</string>
+    <string name="hint_nome">Nome do produto</string>
+    <string name="hint_descricao">Descrição</string>
+    <string name="hint_preco">Preço (R$)</string>
+    <string name="hint_quantidade">Quantidade em estoque</string>
+    <string name="hint_categoria">Categoria</string>
+    <string name="btn_salvar">Salvar</string>
+    <string name="btn_cancelar">Cancelar</string>
+    <string name="title_adicionar">Adicionar Produto</string>
+    <string name="title_editar">Editar Produto</string>
+    <string name="msg_produto_salvo">Produto salvo com sucesso!</string>
+    <string name="msg_produto_deletado">Produto deletado.</string>
+    <string name="msg_campos_obrigatorios">Preencha todos os campos obrigatórios.</string>
+    <string name="msg_preco_invalido">Informe um preço válido.</string>
+    <string name="msg_quantidade_invalida">Informe uma quantidade válida.</string>
+    <string name="msg_confirmar_exclusao">Deseja excluir este produto?</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="lista_vazia">Nenhum produto cadastrado.\nToque em + para adicionar.</string>
+    <string name="pesquisar">Pesquisar produtos…</string>
+</resources>

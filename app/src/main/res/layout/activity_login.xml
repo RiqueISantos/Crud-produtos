@@ -151,6 +151,17 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSouCliente"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="20dp"
+            android:text="Sou cliente • Ver cardápio (QR Code)"
+            android:textSize="14sp"
+            app:icon="@android:drawable/ic_menu_camera"
+            app:iconGravity="textStart" />
+
         <!-- Loading -->
         <ProgressBar
             android:id="@+id/progressBar"

@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    // ── Autenticação do restaurante ───────────────────────────────────────────
+    // ── Autenticação ──────────────────────────────────────────────────────────
 
     @POST("restaurantes/login/solicitar")
     suspend fun loginSolicitar(
@@ -18,7 +18,6 @@ interface ApiService {
         @Body body: LoginRequest
     ): Response<LoginResponse>
 
-    // Rota de dev — loga sem código OTP (só funciona com debug=True no Flask)
     @POST("restaurantes/login/dev-bypass")
     suspend fun loginDevBypass(
         @Body body: LoginSolicitarRequest

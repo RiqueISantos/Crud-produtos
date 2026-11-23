@@ -26,13 +26,21 @@ class AddEditProdutoActivity : AppCompatActivity() {
 
         session = SessionManager(this)
 
-        setSupportActionBar(null)
         supportActionBar?.title = if (isEdicao) "Editar Produto" else "Adicionar Produto"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (isEdicao) preencherCampos()
 
-        observarViewModel()
+        viewModel.operacaoConcluida.observe(this) { concluida ->
+            if (concluida) {
+                Toast.makeText(this, if (isEdicao) "Produto atualizado!" else "Produto criado!", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+
+        viewModel.uiState.observe(this) { state ->
+            if (state is UiState.Error) Toast.makeText(this, state.mensagem, Toast.LENGTH_LONG).show()
+        }
 
         binding.btnSalvar.setOnClickListener { salvar() }
         binding.btnCancelar.setOnClickListener { finish() }
@@ -42,24 +50,6 @@ class AddEditProdutoActivity : AppCompatActivity() {
         binding.etNome.setText(intent.getStringExtra(EXTRA_PRODUTO_NOME))
         binding.etDescricao.setText(intent.getStringExtra(EXTRA_PRODUTO_DESCRICAO))
         binding.etPreco.setText(intent.getDoubleExtra(EXTRA_PRODUTO_PRECO, 0.0).toString())
-        // campo disponivel não tem na tela, usa true por padrão
-    }
-
-    private fun observarViewModel() {
-        viewModel.operacaoConcluida.observe(this) { concluida ->
-            if (concluida) {
-                val msg = if (isEdicao) "Produto atualizado!" else "Produto criado!"
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-                finish()
-            }
-        }
-
-        viewModel.uiState.observe(this) { state ->
-            when (state) {
-                is UiState.Error -> Toast.makeText(this, state.mensagem, Toast.LENGTH_LONG).show()
-                else -> {}
-            }
-        }
     }
 
     private fun salvar() {
@@ -78,20 +68,11 @@ class AddEditProdutoActivity : AppCompatActivity() {
             return
         }
 
-        val request = ProdutoRequest(
-            nome = nome,
-            descricao = descricao,
-            preco = preco,
-            disponivel = true
-        )
-
+        val request = ProdutoRequest(nome = nome, descricao = descricao, preco = preco)
         val token = session.getBearerToken()
 
-        if (isEdicao) {
-            viewModel.atualizarProduto(token, produtoId, request)
-        } else {
-            viewModel.criarProduto(token, request)
-        }
+        if (isEdicao) viewModel.atualizarProduto(token, produtoId, request)
+        else viewModel.criarProduto(token, request)
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -31,15 +31,9 @@ class ProdutoViewModel : ViewModel() {
     fun carregarProdutos(token: String, restauranteId: Long) {
         _uiState.value = UiState.Loading
         viewModelScope.launch {
-            val result = repository.listar(restauranteId)
-            result.fold(
-                onSuccess = {
-                    _produtos.value = it
-                    _uiState.value = UiState.Success
-                },
-                onFailure = {
-                    _uiState.value = UiState.Error(it.message ?: "Erro ao carregar produtos")
-                }
+            repository.listar(restauranteId).fold(
+                onSuccess = { _produtos.value = it; _uiState.value = UiState.Success },
+                onFailure = { _uiState.value = UiState.Error(it.message ?: "Erro ao carregar") }
             )
         }
     }
@@ -47,15 +41,9 @@ class ProdutoViewModel : ViewModel() {
     fun criarProduto(token: String, request: ProdutoRequest) {
         _uiState.value = UiState.Loading
         viewModelScope.launch {
-            val result = repository.criar(token, request)
-            result.fold(
-                onSuccess = {
-                    _uiState.value = UiState.Success
-                    _operacaoConcluida.value = true
-                },
-                onFailure = {
-                    _uiState.value = UiState.Error(it.message ?: "Erro ao criar produto")
-                }
+            repository.criar(token, request).fold(
+                onSuccess = { _uiState.value = UiState.Success; _operacaoConcluida.value = true },
+                onFailure = { _uiState.value = UiState.Error(it.message ?: "Erro ao criar") }
             )
         }
     }
@@ -63,28 +51,21 @@ class ProdutoViewModel : ViewModel() {
     fun atualizarProduto(token: String, id: Long, request: ProdutoRequest) {
         _uiState.value = UiState.Loading
         viewModelScope.launch {
-            val result = repository.atualizar(token, id, request)
-            result.fold(
-                onSuccess = {
-                    _uiState.value = UiState.Success
-                    _operacaoConcluida.value = true
-                },
-                onFailure = {
-                    _uiState.value = UiState.Error(it.message ?: "Erro ao atualizar produto")
-                }
+            repository.atualizar(token, id, request).fold(
+                onSuccess = { _uiState.value = UiState.Success; _operacaoConcluida.value = true },
+                onFailure = { _uiState.value = UiState.Error(it.message ?: "Erro ao atualizar") }
             )
         }
     }
 
     fun deletarProduto(token: String, id: Long, restauranteId: Long) {
         viewModelScope.launch {
-            val result = repository.deletar(token, id)
-            result.fold(
+            repository.deletar(token, id).fold(
                 onSuccess = { carregarProdutos(token, restauranteId) },
-                onFailure = {
-                    _uiState.value = UiState.Error(it.message ?: "Erro ao deletar produto")
-                }
+                onFailure = { _uiState.value = UiState.Error(it.message ?: "Erro ao deletar") }
             )
         }
     }
+
+    suspend fun getById(id: Long): ProdutoApi? = null
 }

@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    // 10.0.2.2 é o localhost da máquina host visto pelo emulador Android
     private const val BASE_URL = "http://10.0.2.2:5000/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {

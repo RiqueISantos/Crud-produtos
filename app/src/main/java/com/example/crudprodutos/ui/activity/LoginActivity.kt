@@ -29,9 +29,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        // Esconde a etapa 2 (código OTP) — não é necessária com dev-bypass
         binding.layoutCodigo.visibility = View.GONE
-
         binding.btnEnviarCodigo.text = "Entrar"
         binding.btnEnviarCodigo.setOnClickListener { login() }
     }
@@ -77,6 +75,5 @@ class LoginActivity : AppCompatActivity() {
         binding.btnEnviarCodigo.isEnabled = !loading
     }
 
-    private fun toast(msg: String) =
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+    private fun toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
 }

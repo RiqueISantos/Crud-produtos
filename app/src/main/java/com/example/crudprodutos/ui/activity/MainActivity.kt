@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         setupObservers()
         setupSearch()
         setupFab()
-
         carregarProdutos()
     }
 
@@ -69,13 +68,8 @@ class MainActivity : AppCompatActivity() {
             adapter.submitList(lista)
             binding.tvEmpty.visibility = if (lista.isEmpty()) View.VISIBLE else View.GONE
         }
-
         viewModel.uiState.observe(this) { state ->
-            when (state) {
-                is UiState.Loading -> { /* pode adicionar shimmer/progress se quiser */ }
-                is UiState.Error -> Toast.makeText(this, state.mensagem, Toast.LENGTH_LONG).show()
-                is UiState.Success -> { }
-            }
+            if (state is UiState.Error) Toast.makeText(this, state.mensagem, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -84,13 +78,9 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s?.toString()?.trim()?.lowercase() ?: ""
-                val filtrado = if (query.isEmpty()) {
-                    todosProdutos
-                } else {
-                    todosProdutos.filter {
-                        it.nome.lowercase().contains(query) ||
-                        it.descricao.lowercase().contains(query)
-                    }
+                val filtrado = if (query.isEmpty()) todosProdutos
+                else todosProdutos.filter {
+                    it.nome.lowercase().contains(query) || it.descricao.lowercase().contains(query)
                 }
                 adapter.submitList(filtrado)
                 binding.tvEmpty.visibility = if (filtrado.isEmpty()) View.VISIBLE else View.GONE
@@ -120,11 +110,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Excluir produto")
             .setMessage("Deseja excluir \"${produto.nome}\"?")
             .setPositiveButton("Sim") { _, _ ->
-                viewModel.deletarProduto(
-                    session.getBearerToken(),
-                    produto.id,
-                    session.getRestauranteId()
-                )
+                viewModel.deletarProduto(session.getBearerToken(), produto.id, session.getRestauranteId())
             }
             .setNegativeButton("Não", null)
             .show()

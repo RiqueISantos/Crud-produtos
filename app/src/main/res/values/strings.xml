@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Crud Produtos</string>
+    <string name="app_name">iFood</string>
     <string name="hint_nome">Nome do produto</string>
     <string name="hint_descricao">Descrição</string>
     <string name="hint_preco">Preço (R$)</string>

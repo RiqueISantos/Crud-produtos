@@ -38,7 +38,3 @@ data class RestauranteInfo(
     val nome: String,
     val email: String
 )
-
-data class ErroResponse(
-    val erro: String
-)
